@@ -116,13 +116,8 @@ function Invoke-UpdateANCM ($Version) {
     [System.IO.Compression.ZipFile]::ExtractToDirectory($tempFile, $tempFolder)
     $schemaPath = Join-Path -Path $tempFolder -ChildPath "aspnetcore_schema_v2.xml"
     
-    $binaryPath64bit = Join-Path -Path $tempFolder -ChildPath "contentFiles\any\any\x64\aspnetcorev2.dll"
-    $binaryPath32bit = Join-Path -Path $tempFolder -ChildPath "contentFiles\any\any\x86\aspnetcorev2.dll"
-
-    # Backup binaries before blowing them away with -Force
-    Invoke-BackupFile("C:\Windows\System32\inetsrv\Config\Schema\aspnetcore_schema_v2.xml")
-    Invoke-BackupFile("C:\Windows\System32\inetsrv\aspnetcorev2.dll")
-    Invoke-BackupFile("C:\Windows\SysWOW64\inetsrv\aspnetcorev2.dll")
+    $binaryPath64bit = Join-Path -Path $tempFolder -ChildPath "contentFiles\any\any\x64\*"
+    $binaryPath32bit = Join-Path -Path $tempFolder -ChildPath "contentFiles\any\any\x86\*"
 
     Copy-Item -Path $schemaPath -Destination "C:\Windows\System32\inetsrv\Config\Schema\aspnetcore_schema_v2.xml" -Force
     Copy-Item -Path $binaryPath64bit\* -Destination C:\Windows\System32\inetsrv\ -Force 
